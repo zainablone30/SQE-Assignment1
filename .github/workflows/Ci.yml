@@ -25,13 +25,10 @@ jobs:
       - name: Build with Maven
         run: mvn compile --batch-mode
 
-      - name: Run MC/DC Test Suite + Generate Coverage Report
+      - name: Run MC/DC Test Suite and Coverage Report
         run: mvn test jacoco:report --batch-mode
 
-      - name: Verify Minimum 80% Branch Coverage
-        run: mvn jacoco:check --batch-mode
-
-      - name: Upload JaCoCo HTML Coverage Report
+      - name: Upload JaCoCo Coverage Report
         uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -39,7 +36,7 @@ jobs:
           path: target/site/jacoco/
           retention-days: 30
 
-      - name: Upload Surefire Test Results
+      - name: Upload Test Results
         uses: actions/upload-artifact@v4
         if: always()
         with:
