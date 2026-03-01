@@ -46,12 +46,3 @@ jobs:
           name: surefire-test-results
           path: target/surefire-reports/
           retention-days: 30
-
-      - name: Publish JUnit Test Summary
-        uses: dorny/test-reporter@v1
-        if: always()
-        with:
-          name: JUnit Test Results
-          path: "**/surefire-reports/*.xml"
-          reporter: java-junit
-          fail-on-error: false
