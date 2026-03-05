@@ -9,7 +9,7 @@ class OrderTest {
 
 
     @Test @DisplayName("isActive TC1 – PENDING → true")
-    void isActive_TC1() { assertFalse(new Order(1,"A",100,"PENDING").isActive()); }
+    void isActive_TC1() { assertTrue(new Order(1,"A",100,"PENDING").isActive()); }
 
     @Test @DisplayName("isActive TC2 – PROCESSING → true")
     void isActive_TC2() { assertTrue(new Order(2,"B",100,"PROCESSING").isActive()); }
