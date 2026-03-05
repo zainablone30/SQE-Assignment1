@@ -25,10 +25,10 @@ jobs:
       - name: Build with Maven
         run: mvn compile --batch-mode
 
-      - name: Run MC/DC Test Suite and Coverage Report
+      - name: Run MC/DC Test Suite + Generate Coverage Report
         run: mvn test jacoco:report --batch-mode
 
-      - name: Upload JaCoCo Coverage Report
+      - name: Upload JaCoCo HTML Coverage Report
         uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -36,10 +36,22 @@ jobs:
           path: target/site/jacoco/
           retention-days: 30
 
-      - name: Upload Test Results
+      - name: Upload Surefire Test Results
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: surefire-test-results
           path: target/surefire-reports/
           retention-days: 30
+
+      - name: Publish JUnit Test Summary
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: JUnit Test Results
+          path: target/surefire-reports/*.xml
+          reporter: java-junit
+          fail-on-error: true
+
+      - name: Verify Minimum 80% Branch Coverage
+        run: mvn jacoco:check --batch-mode

@@ -2,20 +2,9 @@ package search;
 
 import java.util.*;
 
-/**
- * Breadth-First Search (BFS) on a Graph.
- * Explores nodes level by level using a Queue (FIFO).
- * Guarantees shortest path in an unweighted graph.
- *
- * Time Complexity : O(V + E)
- * Space Complexity: O(V)
- */
 public class BreadthFirstSearch {
 
-    /**
-     * Search for targetId starting from startId.
-     * @return GraphNode if found, null otherwise
-     */
+
     public GraphNode search(Graph graph, int startId, int targetId) {
         if (graph == null || graph.isEmpty())       return null;
         if (!graph.containsNode(startId))           return null;
@@ -44,10 +33,6 @@ public class BreadthFirstSearch {
         return null;
     }
 
-    /**
-     * Returns shortest path (list of node IDs) from startId to targetId.
-     * Returns empty list if no path exists.
-     */
     public List<Integer> shortestPath(Graph graph, int startId, int targetId) {
         if (graph == null || graph.isEmpty() || !graph.containsNode(startId))
             return new ArrayList<>();

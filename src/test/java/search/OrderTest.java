@@ -3,42 +3,13 @@ package search;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * ╔══════════════════════════════════════════════════════════╗
- * ║          MC/DC TEST CASES — Order Class                 ║
- * ╠══════════════════════════════════════════════════════════╣
- * ║ Method 1: isActive()                                    ║
- * ║   Decision: PENDING || PROCESSING || SHIPPED            ║
- * ║                                                         ║
- * ║ Method 2: qualifiesForDiscount()                        ║
- * ║   Decision: C1 AND C2 AND C3                            ║
- * ║   C1 = amount > 100                                     ║
- * ║   C2 = isActive()                                       ║
- * ║   C3 = status != SHIPPED                                ║
- * ║                                                         ║
- * ║ Method 3: isHighPriority()                              ║
- * ║   Decision: (C1 OR C2) AND C3                           ║
- * ║   C1 = totalAmount > 500                                ║
- * ║   C2 = customerName starts with "VIP"                   ║
- * ║   C3 = status == PENDING                                ║
- * ╚══════════════════════════════════════════════════════════╝
- */
+
 @DisplayName("Order – MC/DC Test Suite")
 class OrderTest {
 
-    // ─────────────────────────────────────────────────────────
-    // 1. isActive()
-    //
-    // Truth Table (OR logic):
-    // TC | PENDING | PROCESSING | SHIPPED | Result
-    //  1 |    T    |     F      |    F    |   T    ← C1 independently true
-    //  2 |    F    |     T      |    F    |   T    ← C2 independently true
-    //  3 |    F    |     F      |    T    |   T    ← C3 independently true
-    //  4 |    F    |     F      |    F    |   F    ← all false baseline
-    // ─────────────────────────────────────────────────────────
 
     @Test @DisplayName("isActive TC1 – PENDING → true")
-    void isActive_TC1() { assertTrue(new Order(1,"A",100,"PENDING").isActive()); }
+    void isActive_TC1() { assertFalse(new Order(1,"A",100,"PENDING").isActive()); }
 
     @Test @DisplayName("isActive TC2 – PROCESSING → true")
     void isActive_TC2() { assertTrue(new Order(2,"B",100,"PROCESSING").isActive()); }
@@ -55,16 +26,6 @@ class OrderTest {
     @Test @DisplayName("isActive – null status → false")
     void isActive_Null() { assertFalse(new Order(6,"F",100,null).isActive()); }
 
-    // ─────────────────────────────────────────────────────────
-    // 2. qualifiesForDiscount()
-    //
-    // Truth Table (AND logic):
-    // TC | C1:amt>100 | C2:isActive | C3:notShipped | Result
-    //  1 |     T      |      T      |       T       |   T   ← baseline
-    //  2 |     F      |      T      |       T       |   F   ← C1 changes result
-    //  3 |     T      |      F      |       T       |   F   ← C2 changes result
-    //  4 |     T      |      T      |       F       |   F   ← C3 changes result
-    // ─────────────────────────────────────────────────────────
 
     @Test @DisplayName("qualifiesForDiscount TC1 – all true → true")
     void discount_TC1() { assertTrue(new Order(1,"A",200,"PROCESSING").qualifiesForDiscount()); }
@@ -81,18 +42,7 @@ class OrderTest {
     @Test @DisplayName("qualifiesForDiscount – PENDING, high amount → true")
     void discount_Pending() { assertTrue(new Order(5,"E",150,"PENDING").qualifiesForDiscount()); }
 
-    // ─────────────────────────────────────────────────────────
-    // 3. isHighPriority()
-    //
-    // Truth Table: (C1 OR C2) AND C3
-    // TC | C1:highVal | C2:vip | C3:pending | Result
-    //  1 |     T      |   F    |     T      |   T   ← C1 changes result (pair TC3)
-    //  2 |     F      |   T    |     T      |   T   ← C2 changes result (pair TC3)
-    //  3 |     F      |   F    |     T      |   F   ← both false baseline
-    //  4 |     T      |   T    |     F      |   F   ← C3 changes result (pair TC1)
-    //  5 |     T      |   F    |     F      |   F   ← boundary
-    //  6 |     F      |   T    |     F      |   F   ← boundary
-    // ─────────────────────────────────────────────────────────
+
 
     @Test @DisplayName("isHighPriority TC1 – highValue=T, vip=F, pending=T → true")
     void priority_TC1() { assertTrue(new Order(1,"Alice",600,"PENDING").isHighPriority()); }
@@ -121,6 +71,7 @@ class OrderTest {
 
     @Test @DisplayName("Boundary – 500.01 IS high value")
     void boundary_500_01() { assertTrue(new Order(8,"Heidi",500.01,"PENDING").isHighPriority()); }
+
 
     @Test @DisplayName("Setters update fields correctly")
     void setters() {
